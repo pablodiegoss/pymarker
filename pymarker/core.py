@@ -16,5 +16,5 @@ def generate_png(filename, border_size):
     marker_size = get_marker_size(image, border_size)
     marker = Image.new('RGB', marker_size, (0, 0, 0))
     marker.paste(image,get_box_coords(image,border_size))
-    marker.save(remove_extension(filename)+".png", "PNG")
+    marker.save(remove_extension(filename)+"_marker.png", "PNG")
     return True
