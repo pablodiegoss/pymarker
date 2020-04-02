@@ -1,17 +1,17 @@
-# pymarker
+# PyMarker
 A python package to generate AR markers and patterns based on input images.
 
 ## Usage
 
 Pymarker has 2 main features, generating Pattern files (.patt) and Markers (.png). The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
 
-An example input image:
+An example input image:    
 ![Example of an input image](images/hiro.jpg)
 
-Expected output patt:
+Expected output patt:    
 ![Example output for pattern file](images/patt_example.png)
 
-Expected output marker:
+Expected output marker:    
 ![Example of a generated marker](images/marker_example.png)
 
 ### Commands
