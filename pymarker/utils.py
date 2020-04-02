@@ -14,11 +14,10 @@ def open_image(filename):
     
     return square_image(image)
 
-
-# TODO: squish the image to be a square
 def square_image(image):
-    return image
-
+    limited_size = image.width if image.height>image.width else image.height
+    return image.resize((limited_size,limited_size))
+    
 # Coords used when pasting the original image inside the black canvas to create borders
 def get_box_coords(image, border_size):
     # left, upper, right, lower bounds in pixels
