@@ -29,7 +29,7 @@ def generate_patt(filename):
         image = image.rotate(90)
 
     patt.close()
-    return "000"
+    return True
 
 def patt_number_format(point):
     return str(point).rjust(3,' ')    
@@ -45,7 +45,6 @@ def color_to_file(c, patt):
             else:
                 patt.write(' ')
             n += 1
-            print(n)
         
 def generate_png(filename, border_size):
     image = open_image(filename)
