@@ -1,4 +1,4 @@
-from utils import open_image, get_box_coords, remove_extension
+from .utils import open_image, get_box_coords, remove_extension
 from PIL import Image
 
 def get_marker_size(image, border_size):
@@ -46,7 +46,7 @@ def color_to_file(c, patt):
                 patt.write(' ')
             n += 1
         
-def generate_png(filename, border_size):
+def generate_marker(filename, border_size):
     image = open_image(filename)
     # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
     marker_size = get_marker_size(image, border_size)
