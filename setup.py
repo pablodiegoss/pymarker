@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pymarker",
-    version="0.0.1",
+    version="0.0.3",
     author="Pablo Silva",
     author_email="pablodiegoss@hotmail.com",
     description="A python package to generate AR markers and patterns based on input images",
@@ -23,6 +23,10 @@ setuptools.setup(
     entry_points = {
         'console_scripts': ['pymarker=pymarker.cli:main'],
     },
+    install_requires=[
+        'click==7.1.1',
+        'pillow==7.1.0'
+    ],
     python_requires='>=3.5',
 )
 
