@@ -21,5 +21,8 @@ def generate_patt_and_png(filename, patt, marker, border_size):
 
     click.echo("Done.")
 
-if __name__ == "__main__":
+def main():
     generate_patt_and_png()
+
+if __name__ == "__main__":
+    main()
