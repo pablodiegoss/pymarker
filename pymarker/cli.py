@@ -5,7 +5,7 @@ from .core import generate_marker, generate_patt
 @click.argument('filename')
 @click.option('--patt','-p', is_flag=True, default=False)
 @click.option('--marker','-m', is_flag=True, default=False)
-@click.option('--border-size', '-b', default=84) # 84 is based on template hiro marker
+@click.option('--border-size', '-b', default=50) # 50% is based on template hiro marker
 def generate_patt_and_marker(filename, patt, marker, border_size):
     click.echo("-- Starting PyMarker Generator --".format(filename))
     if (patt and marker) or (not patt and not marker):

@@ -46,7 +46,7 @@ $ pymarker -m tests/input/hiro.jpg
 $ pymarker --marker tests/input/hiro.jpg
 ```
 
-The marker border size can be adjusted with `-b`, the default value being 84px.
+The marker border size can be adjusted with `-b`, the default value being 50%.
 ```bash
 $ pymarker -b 40 tests/input/hiro.jpg
 ```
@@ -60,7 +60,7 @@ from pymarker.core import generate_patt, generate_marker
 
 def main():
     filename = "tests/input/hiro.jpg"
-    border_size = 84 //size in pixels
+    border_size = 50 // size in percentage
 
     generate_patt(filename)
     generate_marker(filename,border_size)

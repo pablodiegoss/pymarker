@@ -1,10 +1,10 @@
 from .utils import open_image, get_box_coords, remove_extension
 from PIL import Image
+from math import ceil
 
 def get_marker_size(image, border_size):
-    # There are two borders (left and right) and (up and down)
     size = image.height + (border_size*2)
-    # Using the height double because the resulting marker should be a square.
+    # Using the size double because the resulting marker should be a square.
     return (size,size)
 
 def create_empty_patt(filename):
@@ -46,8 +46,11 @@ def color_to_file(c, patt):
                 patt.write(' ')
             n += 1
         
-def generate_marker(filename, border_size):
+def generate_marker(filename, border_percentage):
     image = open_image(filename)
+
+    border_size = ceil(image.height * (border_percentage/100))
+
     # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
     marker_size = get_marker_size(image, border_size)
     marker = Image.new('RGB', marker_size, (0, 0, 0))
