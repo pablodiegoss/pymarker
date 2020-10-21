@@ -6,11 +6,12 @@ from .core import generate_marker, generate_patt
 @click.option('--patt','-p', is_flag=True, default=False)
 @click.option('--marker','-m', is_flag=True, default=False)
 @click.option('--border-size', '-b', default=50) # 50% is based on template hiro marker
-def generate_patt_and_marker(filename, patt, marker, border_size):
+@click.option('--output','-o', default=None, type=str)
+def generate_patt_and_marker(filename, patt, marker, border_size, output):
     click.echo("-- Starting PyMarker Generator --".format(filename))
     if (patt and marker) or (not patt and not marker):
-        generate_patt(filename)
-        generate_marker(filename, border_size)
+        generate_patt(filename, output)
+        generate_marker(filename, border_size, output)
         click.echo("Generating patt and marker for {}".format(filename))
     elif marker:
         generate_marker(filename, border_size)

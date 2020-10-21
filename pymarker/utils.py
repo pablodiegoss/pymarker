@@ -31,3 +31,14 @@ def get_box_coords(image, border_size):
 # The filename contains extension and/or folders that should be filtered
 def remove_extension(filename):
     return filename.split(".")[0]
+
+# Get folder location of file
+def get_dir(filename):
+    # Avoid error on paths without '/' at the end
+    folder = filename if filename[-1] == "/" else filename+"/"
+    return folder.rsplit("/", 2)[0]+"/"
+
+# Get name of the file from a filepath
+def get_name(filename):
+    name = filename.rsplit("/", 1)[1]
+    return name.split(".")[0]
