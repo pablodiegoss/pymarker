@@ -14,10 +14,10 @@ def generate_patt_and_marker(filename, patt, marker, border_size, output):
         generate_marker(filename, border_size, output)
         click.echo("Generating patt and marker for {}".format(filename))
     elif marker:
-        generate_marker(filename, border_size)
+        generate_marker(filename, border_size, output)
         click.echo("Generating marker for {}".format(filename))
     elif patt:
-        generate_patt(filename)
+        generate_patt(filename, output)
         click.echo("Generating patt for {}".format(filename))
 
     click.echo("Done.")
