@@ -42,3 +42,8 @@ def get_dir(filename):
 def get_name(filename):
     name = filename.rsplit("/", 1)[1]
     return name.split(".")[0]
+
+# Check and return folder path with '/' if necessary
+def check_path(path):
+    path = path if path[-1] == "/" else path+"/"
+    return path

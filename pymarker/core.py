@@ -1,4 +1,4 @@
-from .utils import open_image, get_box_coords, remove_extension, get_dir, get_name
+from .utils import open_image, get_box_coords, remove_extension, get_dir, get_name, check_path
 from PIL import Image
 from math import ceil
 
@@ -18,10 +18,10 @@ def generate_patt(filename, output):
     # Patt default marker size is 16x16 pixels
     image = image.resize((16,16))
     
-    output_folder = output if output else get_dir(filename)
+    output = check_path(output) if output else get_dir(filename)
     name = get_name(filename)
 
-    patt_name = create_empty_patt(output_folder+name)
+    patt_name = create_empty_patt(output+name)
     patt = open(patt_name,"a")
     for _ in range(0,4):
         r, g, b = image.split()
@@ -51,7 +51,7 @@ def color_to_file(c, patt):
         
 def generate_marker(filename, border_percentage, output):
     image = open_image(filename)
-    output_folder = output if output else get_dir(filename)
+    output = check_path(output) if output else get_dir(filename)
     name = get_name(filename)
 
     border_size = ceil(image.height * (border_percentage/100))
@@ -60,5 +60,5 @@ def generate_marker(filename, border_percentage, output):
     marker_size = get_marker_size(image, border_size)
     marker = Image.new('RGB', marker_size, (0, 0, 0))
     marker.paste(image,get_box_coords(image,border_size))
-    marker.save(output_folder+name+"_marker.png", "PNG")
+    marker.save(output+name+"_marker.png", "PNG")
     return True
