@@ -68,10 +68,10 @@ class PattStr:
         self.content = ""
 
     def __repr__(self):
-        return self.content.rstrip()
+        return self.content.rstrip() + "\n"
 
     def write(self, data):
         self.content += data
 
     def close(self):
-        echo(self)
+        return str(self)

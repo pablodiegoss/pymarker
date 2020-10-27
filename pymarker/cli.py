@@ -14,14 +14,15 @@ def generate_patt_and_marker(filename, patt, marker, string, border_size, output
     echo("-- Starting PyMarker Generator --".format(filename), silent=string)
     if (patt and marker) or (not patt and not marker):
         echo("Generating patt and marker for {}".format(filename), silent=string)
-        generate_patt(filename, output, string)
+        # generate_patt must be silent if you are not using the flag string.
+        echo(generate_patt(filename, output, string), silent=not string)
         generate_marker(filename, border_size, output)
     elif marker:
         echo("Generating marker for {}".format(filename), silent=string)
         generate_marker(filename, border_size, output)
     elif patt:
         echo("Generating patt for {}".format(filename), silent=string)
-        generate_patt(filename, output, string)
+        echo(generate_patt(filename, output, string), silent=not string)
 
     echo("Done.", silent=string)
 
