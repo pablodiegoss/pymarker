@@ -1,4 +1,4 @@
-from .utils import open_image, get_box_coords, remove_extension, get_dir, get_name, check_path
+from .utils import open_image, get_box_coords, remove_extension, get_dir, get_name, check_path, PattStr
 from PIL import Image
 from math import ceil
 
@@ -13,7 +13,7 @@ def create_empty_patt(filename):
     patt_file.close()
     return patt_name
 
-def generate_patt(filename, output):
+def generate_patt(filename, output, string):
     image = open_image(filename)
     # Patt default marker size is 16x16 pixels
     image = image.resize((16,16))
@@ -22,7 +22,7 @@ def generate_patt(filename, output):
     name = get_name(filename)
 
     patt_name = create_empty_patt(output+name)
-    patt = open(patt_name,"a")
+    patt = PattStr() if string else open(patt_name,"a")
     for _ in range(0,4):
         r, g, b = image.split()
         color_to_file(r, patt)
