@@ -11,17 +11,21 @@ class TestMarkerGenerator(unittest.TestCase):
         generate_marker(input_image)
         f = open("tests/input/hiro_marker.png", "r")
         if f:
-            assert fc.cmp(
-                "tests/input/hiro_marker.png", "tests/output/hiro_marker_b50.png"
-            )
-            f.close()
-            os.remove("tests/input/hiro_marker.png")
+            try:
+                assert fc.cmp(
+                    "tests/input/hiro_marker.png", "tests/output/hiro_marker_b50.png"
+                )
+            except:
+                assert False
+            finally:
+                f.close()
+                os.remove("tests/input/hiro_marker.png")
             assert True
         else:
             assert False
 
     def test_no_input(self):
-        """Testing that no input raises an error"""
+        """Testing that no input raises an error for generating markers"""
         border_size = 50
         try:
             generate_marker(None, border_size, None)
