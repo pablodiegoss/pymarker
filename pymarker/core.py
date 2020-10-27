@@ -13,7 +13,11 @@ def create_empty_patt(filename):
     patt_file.close()
     return patt_name
 
-def generate_patt(filename, output, string):
+def create_and_open_patt(filename):
+    patt_name = create_empty_patt(filename)
+    return open(patt_name,"a")
+
+def generate_patt(filename, output, string=False):
     image = open_image(filename)
     # Patt default marker size is 16x16 pixels
     image = image.resize((16,16))
@@ -21,8 +25,7 @@ def generate_patt(filename, output, string):
     output = check_path(output) if output else get_dir(filename)
     name = get_name(filename)
 
-    patt_name = create_empty_patt(output+name)
-    patt = PattStr() if string else open(patt_name,"a")
+    patt = PattStr() if string else create_and_open_patt(output+name)
     for _ in range(0,4):
         r, g, b = image.split()
         color_to_file(r, patt)
