@@ -67,16 +67,18 @@ def color_to_file(c, patt):
         n += 1
 
 
-def generate_marker(filename, border_percentage, output):
-    image = open_image(filename)
-    output = check_path(output) if output else get_dir(filename)
-    name = get_name(filename)
+def generate_marker(filename, border_percentage=50, output=None):
+    if filename:
+        image = open_image(filename)
+        output = check_path(output) if output else get_dir(filename)
+        name = get_name(filename)
 
-    border_size = ceil(image.height * (border_percentage / 100))
+        border_size = ceil(image.height * (border_percentage / 100))
 
-    # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
-    marker_size = get_marker_size(image, border_size)
-    marker = Image.new("RGB", marker_size, (0, 0, 0))
-    marker.paste(image, get_box_coords(image, border_size))
-    marker.save(output + name + "_marker.png", "PNG")
-    return True
+        # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
+        marker_size = get_marker_size(image, border_size)
+        marker = Image.new("RGB", marker_size, (0, 0, 0))
+        marker.paste(image, get_box_coords(image, border_size))
+        marker.save(output + name + "_marker.png", "PNG")
+    else:
+        raise FileNotFoundError
