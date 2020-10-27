@@ -29,26 +29,28 @@ def create_and_open_patt(filename):
     return open(patt_name, "a")
 
 
-def generate_patt(filename, output, string=False):
-    image = open_image(filename)
-    # Patt default marker size is 16x16 pixels
-    image = image.resize((16, 16))
+def generate_patt(filename, output=None, string=False):
+    if filename:
+        image = open_image(filename)
+        # Patt default marker size is 16x16 pixels
+        image = image.resize((16, 16))
 
-    output = check_path(output) if output else get_dir(filename)
-    name = get_name(filename)
+        output = check_path(output) if output else get_dir(filename)
+        name = get_name(filename)
 
-    patt = PattStr() if string else create_and_open_patt(output + name)
-    for _ in range(0, 4):
-        r, g, b = image.split()
-        color_to_file(r, patt)
-        color_to_file(g, patt)
-        color_to_file(b, patt)
-        patt.write("\n")
-        image = image.rotate(90)
+        patt = PattStr() if string else create_and_open_patt(output + name)
+        for i in range(0, 4):
+            r, g, b = image.split()
+            color_to_file(r, patt)
+            color_to_file(g, patt)
+            color_to_file(b, patt)
+            if(i != 3):
+                patt.write("\n")
+            image = image.rotate(90)
 
-    patt.close()
-    return True
-
+        return patt.close()
+    else:
+        raise FileNotFoundError
 
 def patt_number_format(point):
     return str(point).rjust(3, " ")
