@@ -1,5 +1,6 @@
 import os 
 from PIL import Image
+import click
 
 def get_current_dir():
     # Slash added at the end to append with filenames
@@ -48,16 +49,20 @@ def check_path(path):
     path = path if path[-1] == "/" else path+"/"
     return path
 
+def echo(string, silent=False, *params, **kwargs):
+    if not silent:
+        click.echo(string, *params, **kwargs)
+
 class PattStr:
 
     def __init__(self):
        self.content = ''
 
     def __repr__(self):
-        return self.content
+        return self.content.rstrip()
 
     def write(self, data):
         self.content += data
 
     def close(self):
-        print(self)
+        echo(self)
