@@ -47,3 +47,17 @@ def get_name(filename):
 def check_path(path):
     path = path if path[-1] == "/" else path+"/"
     return path
+
+class PattStr:
+
+    def __init__(self):
+       self.content = ''
+
+    def __repr__(self):
+        return self.content
+
+    def write(self, data):
+        self.content += data
+
+    def close(self):
+        print(self)
