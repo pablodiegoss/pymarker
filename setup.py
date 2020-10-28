@@ -3,9 +3,11 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+# Place_Holder_Version is being updated by Github Actions
+
 setuptools.setup(
     name="pymarker",
-    version="0.2.1",
+    version="PLACE_HOLDER_VERSION",
     author="Pablo Silva",
     author_email="pablodiegoss@hotmail.com",
     description="A python package to generate AR markers and patterns based on input images",
@@ -15,7 +17,7 @@ setuptools.setup(
     url="https://github.com/pablodiegoss/pymarker",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
