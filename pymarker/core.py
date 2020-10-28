@@ -44,13 +44,14 @@ def generate_patt(filename, output=None, string=False):
             color_to_file(r, patt)
             color_to_file(g, patt)
             color_to_file(b, patt)
-            if(i != 3):
+            if i != 3:
                 patt.write("\n")
             image = image.rotate(90)
 
         return patt.close()
     else:
         raise FileNotFoundError
+
 
 def patt_number_format(point):
     return str(point).rjust(3, " ")

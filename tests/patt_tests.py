@@ -3,6 +3,7 @@ from pymarker import generate_patt
 import filecmp as fc
 import os
 
+
 class TestPattGenerator(unittest.TestCase):
     def test_output_patt(self):
         """Testing that pattern file is being generated"""
@@ -11,9 +12,7 @@ class TestPattGenerator(unittest.TestCase):
         f = open("tests/input/hiro.patt", "r")
         if f:
             try:
-                assert fc.cmp(
-                    "tests/input/hiro.patt", "tests/output/hiro.patt"
-                )
+                assert fc.cmp("tests/input/hiro.patt", "tests/output/hiro.patt")
             except:
                 assert False
             finally:
@@ -44,13 +43,13 @@ class TestPattGenerator(unittest.TestCase):
             assert True
         else:
             assert False
-    
+
     def test_string_patt(self):
         """Tests if the user is able to use the -s flag"""
         input_image = "tests/input/hiro.jpg"
         output_folder = "tests/automated/"
         patt_str = generate_patt(input_image, output_folder, True)
-        
+
         try:
             open(output_folder + "hiro.patt", "r")
         except FileNotFoundError:
