@@ -72,16 +72,20 @@ def color_to_file(c, patt):
 
 def generate_marker(filename, border_percentage=50, output=None):
     if filename:
-        image = open_image(filename)
+        image = open_image(filename).convert("RGBA")
         output = check_path(output) if output else get_dir(filename)
         name = get_name(filename)
 
         border_size = ceil(image.height * (border_percentage / 100))
 
+        image_width, image_height = image.size
+        white_image = Image.new("RGBA", image.size, "WHITE")
+        white_image.paste(image, (0, 0, image_width, image_height), image)
+
         # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
-        marker_size = get_marker_size(image, border_size)
-        marker = Image.new("RGB", marker_size, (0, 0, 0))
-        marker.paste(image, get_box_coords(image, border_size))
+        marker_size = get_marker_size(white_image, border_size)
+        marker = Image.new("RGBA", marker_size, (0, 0, 0))
+        marker.paste(white_image, get_box_coords(white_image, border_size))
         marker.save(output + name + "_marker.png", "PNG")
     else:
         raise FileNotFoundError
