@@ -38,15 +38,17 @@ def generate_patt(filename, output=None, string=False):
         output = check_path(output) if output else get_dir(filename)
         name = get_name(filename)
 
+        new_image = generate_white_background(image)
+
         patt = PattStr() if string else create_and_open_patt(output + name)
         for i in range(0, 4):
-            r, g, b = image.split()
+            r, g, b = new_image.split()
             color_to_file(r, patt)
             color_to_file(g, patt)
             color_to_file(b, patt)
             if i != 3:
                 patt.write("\n")
-            image = image.rotate(90)
+            new_image = new_image.rotate(90)
 
         return patt.close()
     else:
