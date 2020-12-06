@@ -71,13 +71,15 @@ def color_to_file(c, patt):
             patt.write(" ")
         n += 1
 
+
 def generate_white_background(image):
     if len(image.split()) > 3:
         image_width, image_height = image.size
-        white_image = Image.new("RGB", image.size, (255,255,255))
+        white_image = Image.new("RGB", image.size, (255, 255, 255))
         white_image.paste(image, mask=image.split()[3])
         return white_image
     return image
+
 
 def generate_marker(filename, border_percentage=50, output=None):
     if filename:
