@@ -38,15 +38,17 @@ def generate_patt(filename, output=None, string=False):
         output = check_path(output) if output else get_dir(filename)
         name = get_name(filename)
 
+        new_image = generate_white_background(image)
+
         patt = PattStr() if string else create_and_open_patt(output + name)
         for i in range(0, 4):
-            r, g, b = image.split()
+            r, g, b = new_image.split()
             color_to_file(r, patt)
             color_to_file(g, patt)
             color_to_file(b, patt)
             if i != 3:
                 patt.write("\n")
-            image = image.rotate(90)
+            new_image = new_image.rotate(90)
 
         return patt.close()
     else:
@@ -70,6 +72,15 @@ def color_to_file(c, patt):
         n += 1
 
 
+def generate_white_background(image):
+    if len(image.split()) > 3:
+        image_width, image_height = image.size
+        white_image = Image.new("RGB", image.size, (255, 255, 255))
+        white_image.paste(image, mask=image.split()[3])
+        return white_image
+    return image
+
+
 def generate_marker(filename, border_percentage=50, output=None):
     if filename:
         image = open_image(filename)
@@ -78,10 +89,12 @@ def generate_marker(filename, border_percentage=50, output=None):
 
         border_size = ceil(image.height * (border_percentage / 100))
 
+        new_image = generate_white_background(image)
+
         # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
-        marker_size = get_marker_size(image, border_size)
+        marker_size = get_marker_size(new_image, border_size)
         marker = Image.new("RGB", marker_size, (0, 0, 0))
-        marker.paste(image, get_box_coords(image, border_size))
+        marker.paste(new_image, get_box_coords(new_image, border_size))
         marker.save(output + name + "_marker.png", "PNG")
     else:
         raise FileNotFoundError
