@@ -1,9 +1,11 @@
 # PyMarker
+
 A python package to generate AR markers and patterns based on input images.
 
 ## Installation
 
 PyMarker is available through pip and [Pypi](https://pypi.org/project/pymarker/).
+
 ```bash
 python3 -m pip install pymarker --user
 // or
@@ -12,23 +14,24 @@ pip3 install pymarker --user
 
 ## Usage
 
-Pymarker has 2 main features, generating Pattern files (.patt) and Markers (.png). The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
+Pymarker provides two features for a marker-based AR, generating Pattern files (.patt) and Markers (.png). The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
 
-An example input image:    
+An example input image:
 ![Example of an input image](images/hiro.jpg)
 
-Expected output patt:    
+Expected output patt:
 ![Example output for pattern file](images/patt_example.png)
 
-Expected output marker:    
+Expected output marker:
 ![Example of a generated marker](images/marker_example.png)
 
 ### Commands
 
 By default pymarker receives an image and generate both patt and marker
+
 ```bash
 $ pymarker tests/input/hiro.jpg
-```   
+```
 
 However, if needed the flag `-p` or `--patt` can gerate only the patt file for the input:
 
@@ -47,6 +50,7 @@ $ pymarker --marker tests/input/hiro.jpg
 ```
 
 The marker border size can be adjusted with `-b`, the default value being 50%.
+
 ```bash
 $ pymarker -b 40 tests/input/hiro.jpg
 ```
