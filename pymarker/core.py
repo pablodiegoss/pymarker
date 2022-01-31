@@ -6,6 +6,7 @@ from .utils import (
     get_name,
     check_path,
     PattStr,
+    square_image,
 )
 from PIL import Image
 from math import ceil
@@ -54,6 +55,39 @@ def generate_patt(filename, output=None, string=False):
     else:
         raise FileNotFoundError
 
+def generate_patt_from_image(image):
+
+    # Patt default marker size is 16x16 pixels
+    image = image.resize((16, 16))
+
+
+    new_image = generate_white_background(image)
+
+    patt = PattStr()
+    for i in range(0, 4):
+        r, g, b = new_image.split()
+        color_to_file(r, patt)
+        color_to_file(g, patt)
+        color_to_file(b, patt)
+        if i != 3:
+            patt.write("\n")
+        new_image = new_image.rotate(90)
+
+    return patt.close()
+
+def generate_marker_from_image(image: Image.Image, border_percentage=50):
+    
+    image = square_image(image)
+    border_size = ceil(image.height * (border_percentage / 100))
+
+    new_image = generate_white_background(image)
+
+    # Default color is black, setting (0, 0, 0) for clarity, as the border should be black
+    marker_size = get_marker_size(new_image, border_size)
+    marker = Image.new("RGB", marker_size, (0, 0, 0))
+    marker.paste(new_image, get_box_coords(new_image, border_size))
+
+    return marker
 
 def patt_number_format(point):
     return str(point).rjust(3, " ")
@@ -74,7 +108,6 @@ def color_to_file(c, patt):
 
 def generate_white_background(image):
     if len(image.split()) > 3:
-        image_width, image_height = image.size
         white_image = Image.new("RGB", image.size, (255, 255, 255))
         white_image.paste(image, mask=image.split()[3])
         return white_image
