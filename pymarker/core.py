@@ -32,7 +32,7 @@ def create_and_open_patt(filename):
 
 def generate_patt(filename, output=None, string=False):
     if filename:
-        image = oen_image(filename)
+        image = open_image(filename)
         # Patt default marker size is 16x16 pixels
         image = image.resize((16, 16))
 
