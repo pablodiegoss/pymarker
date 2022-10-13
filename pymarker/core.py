@@ -55,11 +55,11 @@ def generate_patt(filename, output=None, string=False):
     else:
         raise FileNotFoundError
 
+
 def generate_patt_from_image(image):
 
     # Patt default marker size is 16x16 pixels
     image = image.resize((16, 16))
-
 
     new_image = generate_white_background(image)
 
@@ -75,8 +75,9 @@ def generate_patt_from_image(image):
 
     return patt.close()
 
+
 def generate_marker_from_image(image: Image.Image, border_percentage=50):
-    
+
     image = square_image(image)
     border_size = ceil(image.height * (border_percentage / 100))
 
@@ -88,6 +89,7 @@ def generate_marker_from_image(image: Image.Image, border_percentage=50):
     marker.paste(new_image, get_box_coords(new_image, border_size))
 
     return marker
+
 
 def patt_number_format(point):
     return str(point).rjust(3, " ")
