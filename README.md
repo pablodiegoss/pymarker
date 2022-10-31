@@ -17,12 +17,15 @@ pip3 install pymarker --user
 Pymarker provides two features for a marker-based AR, generating Pattern files (.patt) and Markers (.png). The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
 
 An example input image:
+
 ![Example of an input image](images/hiro.jpg)
 
 Expected output patt:
+
 ![Example output for pattern file](images/patt_example.png)
 
 Expected output marker:
+
 ![Example of a generated marker](images/marker_example.png)
 
 ### Commands
@@ -59,7 +62,7 @@ $ pymarker -b 40 tests/input/hiro.jpg
 
 You can use the functions directly from your python code to generate markers and patts.
 
-```
+```python
 from pymarker.core import generate_patt, generate_marker
 
 def main():
