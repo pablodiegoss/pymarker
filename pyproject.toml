@@ -1,3 +1,31 @@
+[tool.poetry]
+name = "pymarker"
+version = "PLACE_HOLDER_VERSION"
+description = "A python package to generate AR markers and patterns based on input images"
+authors = ["Pablo Silva <pablodiegoss@hotmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/pablodiegoss/pymarker"
+repository = "https://github.com/pablodiegoss/pymarker"
+keywords = ["AR", "pattern", "markers", "jandig", "hiro"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent"
+]
+packages = [
+    { include = "pymarker" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.5"
+click = "^7.1.1"
+pillow = "^7.1.0"
+
+[tool.poetry.scripts]
+pymarker = "pymarker.cli:main"
+
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
