@@ -3,6 +3,7 @@ from pymarker import generate_patt
 import filecmp as fc
 import os
 
+KEEP_FILES = False  # Set to True to keep generated files after tests
 
 class TestPattGenerator(unittest.TestCase):
     def test_output_patt(self):
@@ -17,7 +18,8 @@ class TestPattGenerator(unittest.TestCase):
                 assert False
             finally:
                 f.close()
-                os.remove("tests/input/hiro.patt")
+                if not KEEP_FILES:
+                    os.remove("tests/input/hiro.patt")
             assert True
         else:
             assert False
@@ -39,7 +41,8 @@ class TestPattGenerator(unittest.TestCase):
         f = open(output_folder + "hiro.patt", "r")
         if f:
             f.close()
-            os.remove(output_folder + "hiro.patt")
+            if not KEEP_FILES:
+                os.remove(output_folder + "hiro.patt")
             assert True
         else:
             assert False

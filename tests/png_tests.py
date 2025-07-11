@@ -3,7 +3,7 @@ from pymarker import generate_marker
 import filecmp as fc
 import os
 
-
+KEEP_FILES = True  # Set to True to keep generated files after tests
 class TestMarkerGenerator(unittest.TestCase):
     def test_output_marker(self):
         """Testing that marker is being generated"""
@@ -19,7 +19,8 @@ class TestMarkerGenerator(unittest.TestCase):
                 assert False
             finally:
                 f.close()
-                os.remove("tests/input/hiro_marker.png")
+                if not KEEP_FILES:
+                    os.remove("tests/input/hiro_marker.png")
             assert True
         else:
             assert False
@@ -43,7 +44,8 @@ class TestMarkerGenerator(unittest.TestCase):
         f = open(output_folder + "hiro_marker.png", "r")
         if f:
             f.close()
-            os.remove(output_folder + "hiro_marker.png")
+            if not KEEP_FILES:
+                os.remove(output_folder + "hiro_marker.png")
             assert True
         else:
             assert False
@@ -55,6 +57,7 @@ class TestMarkerGenerator(unittest.TestCase):
         input_image = "tests/input/hiro.jpg"
         border_size = 25
         output_folder = "tests/automated/"
+
         generate_marker(input_image, border_size, output_folder)
         assert fc.cmp(
             output_folder + "hiro_marker.png", "tests/output/hiro_marker_b25.png"
