@@ -3,24 +3,23 @@ from pymarker import generate_patt
 import filecmp as fc
 import os
 
+KEEP_FILES = False  # Set to True to keep generated files after tests
 
 class TestPattGenerator(unittest.TestCase):
     def test_output_patt(self):
-        """Testing that pattern file is being generated"""
+        """Testing that pattern file is being generated and matches expected output"""
         input_image = "tests/input/hiro.jpg"
+        output_file = "tests/input/hiro.patt"
+        expected_file = "tests/output/hiro.patt"
+
         generate_patt(input_image)
-        f = open("tests/input/hiro.patt", "r")
-        if f:
-            try:
-                assert fc.cmp("tests/input/hiro.patt", "tests/output/hiro.patt")
-            except:
-                assert False
-            finally:
-                f.close()
-                os.remove("tests/input/hiro.patt")
-            assert True
-        else:
-            assert False
+
+        # Check if file exists and compare contents
+        self.assertTrue(os.path.exists(output_file), "Pattern file was not generated.")
+        self.assertTrue(fc.cmp(output_file, expected_file), "Generated pattern file does not match expected output.")
+
+        if not KEEP_FILES:
+            os.remove(output_file)
 
     def test_input_patt(self):
         """Testing that input is required for generating patts"""
@@ -39,7 +38,8 @@ class TestPattGenerator(unittest.TestCase):
         f = open(output_folder + "hiro.patt", "r")
         if f:
             f.close()
-            os.remove(output_folder + "hiro.patt")
+            if not KEEP_FILES:
+                os.remove(output_folder + "hiro.patt")
             assert True
         else:
             assert False
@@ -54,10 +54,7 @@ class TestPattGenerator(unittest.TestCase):
             open(output_folder + "hiro.patt", "r")
         except FileNotFoundError:
             assert True
-        f = open("tests/output/hiro.patt", "r")
-        try:
-            assert patt_str == f.read()
-        except:
-            assert False
-        finally:
-            f.close()
+
+        with open("tests/output/hiro.patt", "r") as f:
+            file_content = f.read()
+            self.assertEqual(patt_str, file_content)
