@@ -1,4 +1,4 @@
-from .cli import generate_patt_and_marker as generate_patt_and_marker
+from .cli import generate as generate
 from .core import (
     generate_marker as generate_marker,
 )
@@ -10,4 +10,7 @@ from .core import (
 )
 from .core import (
     generate_patt_from_image as generate_patt_from_image,
+)
+from .core import (
+    remove_borders as remove_borders,
 )

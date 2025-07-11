@@ -117,3 +117,83 @@ def generate_marker(
         border_marker.save(output + name + "_marker.png", "PNG")
     else:
         raise FileNotFoundError
+
+
+def find_margin_size(image: Image.Image, color: tuple) -> int:
+    # Find margin by scanning horizontally from the vertical center row
+    pixels = image.load()
+    center_y = image.height // 2
+    margin = None
+    for x in range(image.width // 2):
+        if pixels[x, center_y] != color:
+            margin = x
+            break
+
+    return margin
+
+
+def crop_white_borders(image: Image.Image) -> Image.Image:
+    color = (255, 255, 255)
+    white_margin = find_margin_size(image, color)
+    if white_margin is not None:
+        return image.crop(
+            (
+                white_margin,
+                white_margin,
+                image.width - white_margin,
+                image.height - white_margin,
+            )
+        )
+    return image
+
+
+def crop_black_borders(image: Image.Image) -> Image.Image:
+    color = (0, 0, 0)
+    black_margin = find_margin_size(image, color)
+    if black_margin is not None:
+        if black_margin > image.width * 0.3:  # Avoid cropping too much on markers
+            black_margin = int(image.width * 0.2)
+        return image.crop(
+            (
+                black_margin,
+                black_margin,
+                image.width - black_margin,
+                image.height - black_margin,
+            )
+        )
+    return image
+
+
+def remove_borders(filename: str, output: str = None):
+    """Remove white borders from marker images, cropping symmetrically until the black border."""
+    if filename:
+        image = open_image(filename)
+        image = image.convert("RGB")
+
+        # Crop White Borders
+        cropped_image = crop_white_borders(image)
+        # Crop Black Borders
+        cropped_image = crop_black_borders(cropped_image)
+
+        # Determine output path and filename
+        if output:
+            # If output ends with a slash, it's a directory
+            if output.endswith("/") or output.endswith("\\"):
+                name = get_name(filename)
+                save_path = output + name + "_cropped.png"
+            else:
+                # If output looks like a filename (has .png or .jpg), use it directly
+                if output.lower().endswith((".png", ".jpg", ".jpeg")):
+                    save_path = output
+                else:
+                    # Otherwise, treat as directory
+                    name = get_name(filename)
+                    save_path = output + name + "_cropped.png"
+        else:
+            output = get_dir(filename)
+            name = get_name(filename)
+            save_path = output + name + "_cropped.png"
+
+        cropped_image.save(save_path, "PNG")
+    else:
+        raise FileNotFoundError
