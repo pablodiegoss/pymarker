@@ -1,8 +1,9 @@
 import os
-from PIL import Image
-import click
-
 from math import ceil
+
+import click
+from PIL import Image
+
 
 def get_current_dir():
     # Slash added at the end to append with filenames
@@ -64,7 +65,7 @@ def echo(string, silent=False, *params, **kwargs):
         click.echo(string, *params, **kwargs)
 
 
-def get_marker_size(image:int , border_size:int) -> tuple:
+def get_marker_size(image: int, border_size: int) -> tuple:
     size = image.height + (border_size * 2)
     # Using the size double because the resulting marker should be a square.
     return (size, size)
@@ -81,6 +82,7 @@ def create_and_open_patt(filename):
     patt_name = create_empty_patt(filename)
     return open(patt_name, "a")
 
+
 def patt_number_format(point):
     return str(point).rjust(3, " ")
 
@@ -96,6 +98,15 @@ def color_to_file(c, patt):
         else:
             patt.write(" ")
         n += 1
+
+
+def add_border(image: Image.Image, border_size: int, color: tuple) -> Image.Image:
+    image_border_size: tuple = get_marker_size(image, border_size)
+    border_marker = Image.new("RGB", image_border_size, color)
+    border_marker.paste(image, get_box_coords(image, border_size))
+
+    return border_marker
+
 
 def calculate_border(image_size: float, border_ratio: float = 0.2) -> float:
     """
@@ -115,6 +126,7 @@ def calculate_border(image_size: float, border_ratio: float = 0.2) -> float:
     y = (border_ratio * image_size) / (1 - 2 * border_ratio)
     return ceil(y)
 
+
 # Ensure the image has a white background, not transparent
 def generate_white_background(image: Image.Image) -> Image.Image:
     # If the image has an alpha channel, create a white background
@@ -125,6 +137,7 @@ def generate_white_background(image: Image.Image) -> Image.Image:
         white_image.paste(image, mask=image.split()[3])
         return white_image
     return image
+
 
 class PattStr:
     def __init__(self):

@@ -1,25 +1,23 @@
+from PIL import Image
+
+from .exceptions import BlackBorderSizeError, WhiteBorderSizeError
 from .utils import (
-    open_image,
-    get_box_coords,
-    remove_extension,
+    PattStr,
+    add_border,
+    calculate_border,
+    check_path,
+    color_to_file,
+    create_and_open_patt,
+    generate_white_background,
     get_dir,
     get_name,
-    check_path,
-    PattStr,
+    open_image,
     square_image,
-    get_marker_size,
-    create_and_open_patt,
-    create_empty_patt,
-    color_to_file,
-    patt_number_format,
-    calculate_border,
-    generate_white_background,
 )
-from .exceptions import BlackBorderSizeError, WhiteBorderSizeError
-from PIL import Image
 
 DEFAULT_BLACK_BORDER_PERCENTAGE = 20
 DEFAULT_WHITE_BORDER_PERCENTAGE = 3
+
 
 def generate_patt(filename: str, output: str = None, string: bool = False):
     if filename:
@@ -48,7 +46,6 @@ def generate_patt(filename: str, output: str = None, string: bool = False):
 
 
 def generate_patt_from_image(image: Image.Image) -> PattStr:
-
     # Patt default marker size is 16x16 pixels
     image = image.resize((16, 16))
 
@@ -66,23 +63,19 @@ def generate_patt_from_image(image: Image.Image) -> PattStr:
 
     return patt.close()
 
-def add_border(image: Image.Image, border_size: int, color: tuple) -> Image.Image:
-    image_border_size:tuple = get_marker_size(image, border_size)
-    border_marker = Image.new("RGB", image_border_size, color)
-    border_marker.paste(image, get_box_coords(image, border_size))
 
-    return border_marker
-
-
-
-def generate_marker_from_image(original_image: Image.Image, black_border_percentage=DEFAULT_BLACK_BORDER_PERCENTAGE, white_border_percentage=DEFAULT_WHITE_BORDER_PERCENTAGE) -> Image.Image:
-
+def generate_marker_from_image(
+    original_image: Image.Image,
+    black_border_percentage=DEFAULT_BLACK_BORDER_PERCENTAGE,
+    white_border_percentage=DEFAULT_WHITE_BORDER_PERCENTAGE,
+) -> Image.Image:
     squared_image = square_image(original_image)
     try:
-        black_border_size = calculate_border(squared_image.height, (black_border_percentage / 100))
+        black_border_size = calculate_border(
+            squared_image.height, (black_border_percentage / 100)
+        )
     except ValueError as e:
         raise BlackBorderSizeError(str(e))
-    
 
     # Create a white background if the image has transparency
     marker_middle_image = generate_white_background(squared_image)
@@ -93,7 +86,9 @@ def generate_marker_from_image(original_image: Image.Image, black_border_percent
 
     if white_border_percentage != 0:
         try:
-            white_border_size = calculate_border(squared_image.height, (white_border_percentage / 100))
+            white_border_size = calculate_border(
+                squared_image.height, (white_border_percentage / 100)
+            )
         except ValueError as e:
             raise WhiteBorderSizeError(str(e))
 
@@ -104,15 +99,21 @@ def generate_marker_from_image(original_image: Image.Image, black_border_percent
     return marker
 
 
-def generate_marker(filename:str, black_border_percentage:int=DEFAULT_BLACK_BORDER_PERCENTAGE,output=None, white_border_percentage:int=DEFAULT_WHITE_BORDER_PERCENTAGE):
+def generate_marker(
+    filename: str,
+    black_border_percentage: int = DEFAULT_BLACK_BORDER_PERCENTAGE,
+    output=None,
+    white_border_percentage: int = DEFAULT_WHITE_BORDER_PERCENTAGE,
+):
     if filename:
         image = open_image(filename)
         output = check_path(output) if output else get_dir(filename)
         name = get_name(filename)
 
-        border_marker = generate_marker_from_image(image, black_border_percentage, white_border_percentage)
+        border_marker = generate_marker_from_image(
+            image, black_border_percentage, white_border_percentage
+        )
 
         border_marker.save(output + name + "_marker.png", "PNG")
     else:
         raise FileNotFoundError
-

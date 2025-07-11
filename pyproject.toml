@@ -29,10 +29,20 @@ pymarker = "pymarker.cli:main"
 pytest = "^8.4.1"
 ruff = "^0.12.3"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.pytest.ini_options]
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 testpaths = ["tests"]
+
+[tool.ruff]
+exclude = [
+  ".git",
+  "migrations",
+  ".venv",
+]
+line-length = 88
+# Assume Python 3.12
+target-version = "py312"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
