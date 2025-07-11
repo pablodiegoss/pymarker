@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pymarker"
-version = "0.4.0"
+version = "0.0.0"
 description = "A python package to generate AR markers and patterns based on input images"
 authors = ["Pablo Silva <pablodiegoss@hotmail.com>"]
 readme = "README.md"
