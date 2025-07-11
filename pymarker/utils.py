@@ -115,6 +115,17 @@ def calculate_border(image_size: float, border_ratio: float = 0.2) -> float:
     y = (border_ratio * image_size) / (1 - 2 * border_ratio)
     return ceil(y)
 
+# Ensure the image has a white background, not transparent
+def generate_white_background(image: Image.Image) -> Image.Image:
+    # If the image has an alpha channel, create a white background
+    if len(image.split()) > 3:
+        # Create a new image with filled with white
+        white_image = Image.new("RGB", image.size, (255, 255, 255))
+        # Paste the original image onto the white background using its alpha channel as a mask
+        white_image.paste(image, mask=image.split()[3])
+        return white_image
+    return image
+
 class PattStr:
     def __init__(self):
         self.content = ""
