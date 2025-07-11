@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pymarker"
-version = "PLACE_HOLDER_VERSION"
+version = "0.4.0"
 description = "A python package to generate AR markers and patterns based on input images"
 authors = ["Pablo Silva <pablodiegoss@hotmail.com>"]
 readme = "README.md"
@@ -18,14 +18,21 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5"
-click = "^7.1.1"
-pillow = "^7.1.0"
+python = "^3.10"
+pillow = "^11.3.0"
+click = "^8.2.1"
 
 [tool.poetry.scripts]
 pymarker = "pymarker.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+ruff = "^0.12.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.pytest.ini_options]
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["tests"]
