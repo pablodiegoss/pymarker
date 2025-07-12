@@ -108,3 +108,30 @@ class TestMarkerGenerator(unittest.TestCase):
 
         with self.assertRaises(WhiteBorderSizeError):
             generate_marker(input_image, 20, output_folder, 50)
+        
+        with self.assertRaises(WhiteBorderSizeError):
+            generate_marker(input_image, 20, output_folder, 3, -1)
+        
+        with self.assertRaises(WhiteBorderSizeError):
+            generate_marker(input_image, 20, output_folder, 3, 50)
+    
+    def test_inner_border_size(self):
+        """Tests if the user can define an inner border size using -i
+        checking for inner_border_size 3% which is default and 0% as not having an inner border.
+        """
+        input_image = "tests/input/hiro.jpg"
+        output_folder = "tests/automated/"
+
+        generate_marker(input_image, 20, output_folder, 3)
+        assert fc.cmp(
+            output_folder + "hiro_marker.png", "tests/output/hiro_marker_b20_w3.png"
+        )
+        if not KEEP_FILES:
+                os.remove(output_folder + "hiro_marker.png")
+
+        generate_marker(input_image, 20, output_folder, 3, 2)
+        assert fc.cmp(
+            output_folder + "hiro_marker.png", "tests/output/hiro_marker_b20_w3_i2.png"
+        )
+        if not KEEP_FILES:
+                os.remove(output_folder + "hiro_marker.png")

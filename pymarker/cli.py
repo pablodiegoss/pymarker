@@ -17,21 +17,41 @@ def cli():
 @click.option("--as_string", "-s", is_flag=True, default=False)
 @click.option("--black-border-size", "-b", default=20)
 @click.option("--white-border-size", "-w", default=3)
+@click.option("--inner-border-size", "-i", default=3)
 @click.option("--output", "-o", default=None, type=str)
 def generate(
-    filename, patt, marker, as_string, black_border_size, white_border_size, output
+    filename,
+    patt,
+    marker,
+    as_string,
+    black_border_size,
+    white_border_size,
+    inner_border_size,
+    output,
 ):
     """Generate marker and/or patt files."""
     echo("-- Starting PyMarker Generator --", silent=as_string)
     if marker or (not patt and not marker):
         echo(f"Generating marker for {filename}", silent=as_string)
         try:
-            generate_marker(filename, black_border_size, output, white_border_size)
+            generate_marker(
+                filename,
+                black_border_size,
+                output,
+                white_border_size,
+                inner_border_size,
+            )
         except BlackBorderSizeError:
-            echo("Black border size cannot be less or equal 0 or bigger than 50%")
+            echo(
+                "Black border size cannot be less or equal 0 or bigger than 50%",
+                silent=as_string,
+            )
             return
         except WhiteBorderSizeError:
-            echo("White border size cannot be less than 0 or bigger than 50%")
+            echo(
+                "White border size cannot be less than 0 or bigger than 50%",
+                silent=as_string,
+            )
             return
 
     if patt or (not patt and not marker):

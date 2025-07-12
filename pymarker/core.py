@@ -19,6 +19,7 @@ from .utils import (
 
 DEFAULT_BLACK_BORDER_PERCENTAGE = 20
 DEFAULT_WHITE_BORDER_PERCENTAGE = 3
+DEFAULT_INNER_BORDER_PERCENTAGE = 0
 
 
 def generate_patt(filename: str, output: str = None, string: bool = False):
@@ -70,18 +71,30 @@ def generate_marker_from_image(
     original_image: Image.Image,
     black_border_percentage=DEFAULT_BLACK_BORDER_PERCENTAGE,
     white_border_percentage=DEFAULT_WHITE_BORDER_PERCENTAGE,
+    inner_border_percentage=DEFAULT_INNER_BORDER_PERCENTAGE,
 ) -> Image.Image:
     squared_image = square_image(original_image)
+
+    # Create a white background if the image has transparency
+    marker_middle_image = generate_white_background(squared_image)
+
+    if inner_border_percentage != 0:
+        try:
+            inner_border_size = calculate_border(
+                squared_image.height, (inner_border_percentage / 100)
+            )
+        except ValueError as e:
+            raise WhiteBorderSizeError(str(e))
+        # Add inner border
+        white = (255, 255, 255)
+        marker_middle_image = add_border(marker_middle_image, inner_border_size, white)
+
     try:
         black_border_size = calculate_border(
             squared_image.height, (black_border_percentage / 100)
         )
     except ValueError as e:
         raise BlackBorderSizeError(str(e))
-
-    # Create a white background if the image has transparency
-    marker_middle_image = generate_white_background(squared_image)
-
     # Add black border
     black = (0, 0, 0)
     marker = add_border(marker_middle_image, black_border_size, black)
@@ -106,6 +119,7 @@ def generate_marker(
     black_border_percentage: int = DEFAULT_BLACK_BORDER_PERCENTAGE,
     output=None,
     white_border_percentage: int = DEFAULT_WHITE_BORDER_PERCENTAGE,
+    inner_border_percentage=DEFAULT_INNER_BORDER_PERCENTAGE,
 ):
     if filename:
         image = open_image(filename)
@@ -113,7 +127,10 @@ def generate_marker(
         name = get_name(filename)
 
         border_marker = generate_marker_from_image(
-            image, black_border_percentage, white_border_percentage
+            image,
+            black_border_percentage,
+            white_border_percentage,
+            inner_border_percentage,
         )
 
         border_marker.save(output + name + "_marker.png", "PNG")
