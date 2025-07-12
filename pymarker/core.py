@@ -8,6 +8,8 @@ from .utils import (
     check_path,
     color_to_file,
     create_and_open_patt,
+    crop_black_borders,
+    crop_white_borders,
     generate_white_background,
     get_dir,
     get_name,
@@ -117,51 +119,6 @@ def generate_marker(
         border_marker.save(output + name + "_marker.png", "PNG")
     else:
         raise FileNotFoundError
-
-
-def find_margin_size(image: Image.Image, color: tuple) -> int:
-    # Find margin by scanning horizontally from the vertical center row
-    pixels = image.load()
-    center_y = image.height // 2
-    margin = None
-    for x in range(image.width // 2):
-        if pixels[x, center_y] != color:
-            margin = x
-            break
-
-    return margin
-
-
-def crop_white_borders(image: Image.Image) -> Image.Image:
-    color = (255, 255, 255)
-    white_margin = find_margin_size(image, color)
-    if white_margin is not None:
-        return image.crop(
-            (
-                white_margin,
-                white_margin,
-                image.width - white_margin,
-                image.height - white_margin,
-            )
-        )
-    return image
-
-
-def crop_black_borders(image: Image.Image) -> Image.Image:
-    color = (0, 0, 0)
-    black_margin = find_margin_size(image, color)
-    if black_margin is not None:
-        if black_margin > image.width * 0.3:  # Avoid cropping too much on markers
-            black_margin = int(image.width * 0.2)
-        return image.crop(
-            (
-                black_margin,
-                black_margin,
-                image.width - black_margin,
-                image.height - black_margin,
-            )
-        )
-    return image
 
 
 def remove_borders(filename: str, output: str = None):
