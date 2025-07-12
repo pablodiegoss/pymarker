@@ -105,6 +105,14 @@ def crop_white_borders(image: Image.Image) -> Image.Image:
     colors = [
         (255, 255, 255),
         (254, 254, 254),
+        (251, 251, 251),
+        (250, 250, 250),
+        (252, 252, 252),
+        (253, 253, 253),
+        (249, 249, 249),
+        (248, 248, 248),
+        (247, 247, 247),
+        (246, 246, 246),
         (253, 253, 253),
         (51, 51, 51),
         (54, 54, 54),
@@ -127,6 +135,13 @@ def crop_black_borders(image: Image.Image) -> Image.Image:
     # All shades of black or grey that are found in marker borders
     colors = [
         (0, 0, 0),
+        (1, 1, 1),
+        (2, 2, 2),
+        (3, 3, 3),
+        (4, 4, 4),
+        (5, 5, 5),
+        (6, 6, 6),
+        (7, 7, 7),
         (13, 12, 14),
         (13, 13, 13),
         (0, 0, 1),
