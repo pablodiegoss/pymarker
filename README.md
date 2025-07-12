@@ -1,6 +1,6 @@
 # PyMarker
 
-A python package to generate AR markers and patterns based on input images.
+A python package to manage Augmented Reality markers and patterns based on input images. This package is capable of generating black borders around images to be used as AR markers and also removing them in cases where you need to automatize the process.
 
 ## Installation
 
@@ -14,7 +14,7 @@ pip3 install pymarker --user
 
 ## Usage
 
-Pymarker provides two features for a marker-based AR, generating Pattern files (.patt) and Markers (.png). The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
+Pymarker provides three features for a marker-based AR: generating Pattern files (.patt); Markers images (.png); Removing borders of existing Marker images. The marker will be used by the user to visualize some augmented reality, the pattern file for the system to be able to recognize the marker.
 
 An example input image:
 
@@ -28,34 +28,62 @@ Expected output marker:
 
 ![Example of a generated marker](images/marker_example.png)
 
+Using the remove feature, we can return this marker to the starter image back again:
+
+![Example of an input image](images/hiro.jpg)
+
 ### Commands
 
-By default pymarker receives an image and generate both patt and marker
+PyMarker now uses subcommands for its CLI interface.
+
+#### Generate markers and patt files
+
+By default, the `generate` subcommand receives an image and generates both patt and marker files:
 
 ```bash
-$ pymarker tests/input/hiro.jpg
+$ pymarker generate tests/input/hiro.jpg
 ```
 
-However, if needed the flag `-p` or `--patt` can gerate only the patt file for the input:
+To generate only the patt file for the input, use the `-p` or `--patt` flag:
 
 ```bash
-$ pymarker -p tests/input/hiro.jpg
-// or
-$ pymarker --patt tests/input/hiro.jpg
+$ pymarker generate -p tests/input/hiro.jpg
+# or
+$ pymarker generate --patt tests/input/hiro.jpg
 ```
 
-The same can happen for markers using the `-m` or `--marker` which generates only the marker:
+To generate only the marker, use the `-m` or `--marker` flag:
 
 ```bash
-$ pymarker -m tests/input/hiro.jpg
-// or
-$ pymarker --marker tests/input/hiro.jpg
+$ pymarker generate -m tests/input/hiro.jpg
+# or
+$ pymarker generate --marker tests/input/hiro.jpg
 ```
 
-The marker border size can be adjusted with `-b`, the default value being 50%.
+You can adjust the marker border size with `-b` (black border, default 20%) and `-w` (white border, default 3%):
 
 ```bash
-$ pymarker -b 40 tests/input/hiro.jpg
+$ pymarker generate -b 40 -w 5 tests/input/hiro.jpg
+```
+
+You can also specify an output path with `-o` or `--output`:
+
+```bash
+$ pymarker generate -o output_dir/ tests/input/hiro.jpg
+```
+
+#### Remove borders from marker images
+
+To remove borders from a marker image, use the `remove` subcommand:
+
+```bash
+$ pymarker remove tests/input/marker.png
+```
+
+You can specify an output path for the result:
+
+```bash
+$ pymarker remove -o output_dir/ tests/input/marker.png
 ```
 
 ### Modules

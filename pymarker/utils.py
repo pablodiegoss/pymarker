@@ -87,6 +87,71 @@ def patt_number_format(point):
     return str(point).rjust(3, " ")
 
 
+def find_margin_size(image: Image.Image, colors: [tuple]) -> int:
+    # Find how many pixels of "colors" border are present by scanning horizontally from the vertical center row
+    pixels = image.load()
+    center_y = image.height // 2
+    margin = None
+    for x in range(image.width // 2):
+        if pixels[x, center_y] not in colors:
+            margin = x
+            break
+
+    return margin
+
+
+def crop_white_borders(image: Image.Image) -> Image.Image:
+    # All shades of white or grey that are found in marker borders
+    colors = [
+        (255, 255, 255),
+        (254, 254, 254),
+        (253, 253, 253),
+        (51, 51, 51),
+        (54, 54, 54),
+        (151, 151, 151),
+    ]
+    white_margin = find_margin_size(image, colors)
+    if white_margin is not None:
+        return image.crop(
+            (
+                white_margin,
+                white_margin,
+                image.width - white_margin,
+                image.height - white_margin,
+            )
+        )
+    return image
+
+
+def crop_black_borders(image: Image.Image) -> Image.Image:
+    # All shades of black or grey that are found in marker borders
+    colors = [
+        (0, 0, 0),
+        (13, 12, 14),
+        (13, 13, 13),
+        (0, 0, 1),
+        (51, 51, 51),
+        (52, 52, 52),
+        (14, 14, 14),
+        (50, 50, 50),
+        (48, 48, 48),
+        (67, 67, 67),
+    ]
+    black_margin = find_margin_size(image, colors)
+    if black_margin is not None:
+        if black_margin > image.width * 0.3:  # Avoid cropping too much on markers
+            black_margin = int(image.width * 0.2)
+        return image.crop(
+            (
+                black_margin,
+                black_margin,
+                image.width - black_margin,
+                image.height - black_margin,
+            )
+        )
+    return image
+
+
 # Prints all pixels from a split color to the patt file
 def color_to_file(c, patt):
     n = 1

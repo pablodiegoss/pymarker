@@ -8,6 +8,8 @@ from .utils import (
     check_path,
     color_to_file,
     create_and_open_patt,
+    crop_black_borders,
+    crop_white_borders,
     generate_white_background,
     get_dir,
     get_name,
@@ -115,5 +117,40 @@ def generate_marker(
         )
 
         border_marker.save(output + name + "_marker.png", "PNG")
+    else:
+        raise FileNotFoundError
+
+
+def remove_borders(filename: str, output: str = None):
+    """Remove white borders from marker images, cropping symmetrically until the black border."""
+    if filename:
+        image = open_image(filename)
+        image = image.convert("RGB")
+
+        # Crop White Borders
+        cropped_image = crop_white_borders(image)
+        # Crop Black Borders
+        cropped_image = crop_black_borders(cropped_image)
+
+        # Determine output path and filename
+        if output:
+            # If output ends with a slash, it's a directory
+            if output.endswith("/") or output.endswith("\\"):
+                name = get_name(filename)
+                save_path = output + name + "_cropped.png"
+            else:
+                # If output looks like a filename (has .png or .jpg), use it directly
+                if output.lower().endswith((".png", ".jpg", ".jpeg")):
+                    save_path = output
+                else:
+                    # Otherwise, treat as directory
+                    name = get_name(filename)
+                    save_path = output + name + "_cropped.png"
+        else:
+            output = get_dir(filename)
+            name = get_name(filename)
+            save_path = output + name + "_cropped.png"
+
+        cropped_image.save(save_path, "PNG")
     else:
         raise FileNotFoundError
