@@ -171,3 +171,15 @@ def remove_borders(filename: str, output: str = None):
         cropped_image.save(save_path, "PNG")
     else:
         raise FileNotFoundError
+
+
+def remove_borders_from_image(image: Image.Image) -> Image.Image:
+    """Remove white borders from marker images, cropping symmetrically until the black border."""
+    image = image.convert("RGB")
+
+    # Crop White Borders
+    cropped_image = crop_white_borders(image)
+    # Crop Black Borders
+    cropped_image = crop_black_borders(cropped_image)
+
+    return cropped_image

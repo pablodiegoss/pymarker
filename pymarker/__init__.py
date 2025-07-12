@@ -14,3 +14,6 @@ from .core import (
 from .core import (
     remove_borders as remove_borders,
 )
+from .core import (
+    remove_borders_from_image as remove_borders_from_image,
+)
