@@ -36,9 +36,10 @@ def generate_patt(filename: str, output: str = None, string: bool = False):
         patt = PattStr() if string else create_and_open_patt(output + name)
         for i in range(0, 4):
             r, g, b = new_image.split()
-            color_to_file(r, patt)
-            color_to_file(g, patt)
+            # AR Toolkit expects BGR order
             color_to_file(b, patt)
+            color_to_file(g, patt)
+            color_to_file(r, patt)
             if i != 3:
                 patt.write("\n")
             new_image = new_image.rotate(90)
