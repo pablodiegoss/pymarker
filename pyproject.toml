@@ -19,8 +19,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pillow = "^11.3.0"
 click = "^8.2.1"
+puhu = "^0.3.0"
 
 [tool.poetry.scripts]
 pymarker = "pymarker.cli:main"

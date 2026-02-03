@@ -2,8 +2,7 @@ import os
 from math import ceil
 
 import click
-from PIL import Image
-
+from puhu import Image
 
 def get_current_dir():
     # Slash added at the end to append with filenames
@@ -20,7 +19,7 @@ def open_image(filename):
     return square_image(image)
 
 
-def square_image(image: Image.Image) -> Image.Image:
+def square_image(image: Image) -> Image:
     limited_size = image.width if image.height > image.width else image.height
     return image.resize((limited_size, limited_size))
 
@@ -87,7 +86,7 @@ def patt_number_format(point):
     return str(point).rjust(3, " ")
 
 
-def find_margin_size(image: Image.Image, colors: [tuple]) -> int:
+def find_margin_size(image: Image, colors: [tuple]) -> int:
     # Find how many pixels of "colors" border are present by scanning horizontally from the vertical center row
     pixels = image.load()
     center_y = image.height // 2
@@ -100,7 +99,7 @@ def find_margin_size(image: Image.Image, colors: [tuple]) -> int:
     return margin
 
 
-def crop_white_borders(image: Image.Image) -> Image.Image:
+def crop_white_borders(image: Image) -> Image:
     # All shades of white or grey that are found in marker borders
     colors = [
         (255, 255, 255),
@@ -131,7 +130,7 @@ def crop_white_borders(image: Image.Image) -> Image.Image:
     return image
 
 
-def crop_black_borders(image: Image.Image) -> Image.Image:
+def crop_black_borders(image: Image) -> Image:
     # All shades of black or grey that are found in marker borders
     colors = [
         (0, 0, 0),
@@ -180,7 +179,7 @@ def color_to_file(c, patt):
         n += 1
 
 
-def add_border(image: Image.Image, border_size: int, color: tuple) -> Image.Image:
+def add_border(image: Image, border_size: int, color: tuple) -> Image:
     image_border_size: tuple = get_marker_size(image, border_size)
     border_marker = Image.new("RGB", image_border_size, color)
     border_marker.paste(image, get_box_coords(image, border_size))
@@ -208,7 +207,7 @@ def calculate_border(image_size: float, border_ratio: float = 0.2) -> float:
 
 
 # Ensure the image has a white background, not transparent
-def generate_white_background(image: Image.Image) -> Image.Image:
+def generate_white_background(image: Image) -> Image:
     # If the image has an alpha channel, create a white background
     if len(image.split()) > 3:
         # Create a new image with filled with white

@@ -1,5 +1,4 @@
-from PIL import Image
-
+from puhu import Image
 from .exceptions import BlackBorderSizeError, WhiteBorderSizeError
 from .utils import (
     PattStr,
@@ -49,7 +48,7 @@ def generate_patt(filename: str, output: str = None, string: bool = False):
         raise FileNotFoundError
 
 
-def generate_patt_from_image(image: Image.Image) -> PattStr:
+def generate_patt_from_image(image: Image) -> PattStr:
     # Patt default marker size is 16x16 pixels
     image = image.resize((16, 16))
 
@@ -70,11 +69,11 @@ def generate_patt_from_image(image: Image.Image) -> PattStr:
 
 
 def generate_marker_from_image(
-    original_image: Image.Image,
+    original_image: Image,
     black_border_percentage=DEFAULT_BLACK_BORDER_PERCENTAGE,
     white_border_percentage=DEFAULT_WHITE_BORDER_PERCENTAGE,
     inner_border_percentage=DEFAULT_INNER_BORDER_PERCENTAGE,
-) -> Image.Image:
+) -> Image:
     squared_image = square_image(original_image)
 
     # Create a white background if the image has transparency
@@ -175,7 +174,7 @@ def remove_borders(filename: str, output: str = None):
         raise FileNotFoundError
 
 
-def remove_borders_from_image(image: Image.Image) -> Image.Image:
+def remove_borders_from_image(image: Image) -> Image:
     """Remove white borders from marker images, cropping symmetrically until the black border."""
     image = image.convert("RGB")
 
