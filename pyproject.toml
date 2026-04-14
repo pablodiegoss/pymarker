@@ -19,7 +19,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pillow = "^11.3.0"
+pillow = ">=11.3,<13.0"
 click = "^8.2.1"
 
 [tool.poetry.scripts]
