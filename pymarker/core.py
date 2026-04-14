@@ -74,6 +74,7 @@ def generate_marker_from_image(
     black_border_percentage=DEFAULT_BLACK_BORDER_PERCENTAGE,
     white_border_percentage=DEFAULT_WHITE_BORDER_PERCENTAGE,
     inner_border_percentage=DEFAULT_INNER_BORDER_PERCENTAGE,
+    black_border_color=(0, 0, 0),
 ) -> Image.Image:
     squared_image = square_image(original_image)
 
@@ -98,8 +99,7 @@ def generate_marker_from_image(
     except ValueError as e:
         raise BlackBorderSizeError(str(e))
     # Add black border
-    black = (0, 0, 0)
-    marker = add_border(marker_middle_image, black_border_size, black)
+    marker = add_border(marker_middle_image, black_border_size, black_border_color)
 
     if white_border_percentage != 0:
         try:
