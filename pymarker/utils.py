@@ -170,7 +170,7 @@ def crop_black_borders(image: Image.Image) -> Image.Image:
 # Prints all pixels from a split color to the patt file
 def color_to_file(c, patt):
     n = 1
-    for point in list(c.getdata()):
+    for point in list(c.get_flattened_data()):
         patt.write(patt_number_format(point))
         if n != 0 and n % 16 == 0:
             n = 0
